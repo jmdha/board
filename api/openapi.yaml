@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: User API
+  version: 1.0.0
+paths:
+  /user/{name}:
+    get:
+      summary: Get user by name
+      operationId: getV1GetUser
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "john"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    post:
+      summary: Create user
+      operationId: postV1CreateUser
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "John"
+    delete:
+      summary: Delete user
+      operationId: deleteV1DeleteUser
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "John"
+
+  /users:
+    get:
+      summary: Get all users
+      operationId: getV1GetUsers
+      reponses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
