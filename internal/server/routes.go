@@ -6,7 +6,7 @@ import (
 )
 
 func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name string) {
-	user, err := s.getUserByName(name)
+	user, err := s.db.GetUserByName(name)
 	if err != nil {
 		http.Error(w, "user not found", http.StatusNotFound)
 		return
@@ -18,7 +18,7 @@ func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name strin
 }
 
 func (s *Server) PostV1CreateUser(w http.ResponseWriter, r *http.Request, name string) {
-	err := s.addUser(name)
+	err := s.db.AddUser(name)
 	// TODO: check whether it is something else that causes error
 	if err != nil {
 		http.Error(w, "user already exists", http.StatusInternalServerError)
@@ -28,7 +28,7 @@ func (s *Server) PostV1CreateUser(w http.ResponseWriter, r *http.Request, name s
 }
 
 func (s *Server) DeleteV1DeleteUser(w http.ResponseWriter, r *http.Request, name string) {
-	err := s.deleteUserByName(name)
+	err := s.db.DeleteUserByName(name)
 	if err != nil {
 		http.Error(w, "user not found", http.StatusNotFound)
 		return
@@ -37,7 +37,7 @@ func (s *Server) DeleteV1DeleteUser(w http.ResponseWriter, r *http.Request, name
 }
 
 func (s *Server) GetV1GetUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := s.getUsers()
+	users, err := s.db.GetUsers()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -1,20 +1,15 @@
 package server
 
 import (
-	"database/sql"
+	"board/internal/db"
 )
 
 type Server struct{
-	db *sql.DB
+	db db.DBInterface
 }
 
-func ServerNew(db_path string) (Server, error) {
-	db, err := db_conn(db_path)
-	if err != nil {
-		return Server {}, err
-	}
-
+func ServerNew(db db.DBInterface) Server {
 	return Server {
 		db: db,
-	}, nil
+	}
 }

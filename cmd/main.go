@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"board/internal/api"
+	"board/internal/db"
 	"board/internal/server"
 )
 
@@ -17,10 +18,11 @@ func main() {
 	flag.StringVar(&db_path, "d", "db.sqlite", "path to db")
 	flag.Parse()
 
-	s, err := server.ServerNew(db_path)
-	if err != nil {
-		log.Fatal("failed to create server with error " + err.Error())
-	}
+	db := &db.DBSqlite {}
+	log.Fatal(db.Create(db_path))
+	log.Fatal(db.Connect(db_path))
+
+	s := server.ServerNew(db)
 	handler := api.Handler(&s)
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), handler))
