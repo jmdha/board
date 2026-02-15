@@ -1,3 +1,5 @@
+.PHONY: api
+
 all: api
 	go build cmd/main.go
 
