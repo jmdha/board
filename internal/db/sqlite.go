@@ -52,6 +52,9 @@ func (db *DBSqlite) Connect(path string) error {
 func (db *DBSqlite) GetUserById(id int) (api.User, error) {
 	var user api.User
 	err := db.conn.QueryRow("select id, name from user where id = ?", id).Scan(&user.Id, &user.Name)
+	if err == sql.ErrNoRows {
+		return api.User {}, ErrUserNotFound
+	}
 	return user, err
 
 }
@@ -59,6 +62,9 @@ func (db *DBSqlite) GetUserById(id int) (api.User, error) {
 func (db *DBSqlite) GetUserByName(name string) (api.User, error) {
 	var user api.User
 	err := db.conn.QueryRow("select id, name from user where name = ?", name).Scan(&user.Id, &user.Name)
+	if err == sql.ErrNoRows {
+		return api.User {}, ErrUserNotFound
+	}
 	return user, err
 
 }
