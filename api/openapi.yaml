@@ -22,9 +22,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
-    post:
+    put:
       summary: Create user
-      operationId: postV1CreateUser
+      operationId: putV1CreateUser
       parameters:
         - name: name
           in: path

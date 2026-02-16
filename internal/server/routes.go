@@ -25,7 +25,7 @@ func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name strin
 	json.NewEncoder(w).Encode(user)
 }
 
-func (s *Server) PostV1CreateUser(w http.ResponseWriter, r *http.Request, name string) {
+func (s *Server) PutV1CreateUser(w http.ResponseWriter, r *http.Request, name string) {
 	err := s.db.AddUser(name)
 
 	if err != nil && errors.Is(err, db.ErrUserExists) {
