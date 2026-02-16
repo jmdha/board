@@ -1,0 +1,29 @@
+name: Fuzz Test
+on: [push, pull_request]
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+
+      - name: Generate
+        run: go generate -v ./...
+
+      - name: Build
+        run: go build -v ./...
+
+      - uses: schemathesis/action@v2
+        with:
+          schema: './api/openapi.yaml'
+          endpoint: 'localhost:8080'
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: schemathesis-results
+          path: schemathesis-report/
