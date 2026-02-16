@@ -21,6 +21,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        '400':
+          description: invalid format
+        '404':
+          description: user not found
 
     put:
       summary: Create user
@@ -33,8 +37,12 @@ paths:
             type: string
             example: "John"
       responses:
-        '200':
-          description: OK
+        '201':
+          description: user created
+        '400':
+          description: invalid request format
+        '409':
+          description: user already exists
 
     delete:
       summary: Delete user
@@ -49,6 +57,10 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: invalid format
+        '404':
+          description: user not found
 
   /users:
     get:
