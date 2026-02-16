@@ -19,7 +19,7 @@ jobs:
       - uses: schemathesis/action@v2
         with:
           schema: './api/openapi.yaml'
-          endpoint: 'localhost:8080'
+          url: 'localhost:8080'
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
