@@ -49,17 +49,7 @@ func (db *DBSqlite) Connect(path string) error {
 	return nil
 }
 
-func (db *DBSqlite) GetUserById(id int) (api.User, error) {
-	var user api.User
-	err := db.conn.QueryRow("select id, name from user where id = ?", id).Scan(&user.Id, &user.Name)
-	if err == sql.ErrNoRows {
-		return api.User {}, ErrUserNotFound
-	}
-	return user, err
-
-}
-
-func (db *DBSqlite) GetUserByName(name string) (api.User, error) {
+func (db *DBSqlite) GetUser(name string) (api.User, error) {
 	var user api.User
 	err := db.conn.QueryRow("select id, name from user where name = ?", name).Scan(&user.Id, &user.Name)
 	if err == sql.ErrNoRows {
@@ -69,25 +59,7 @@ func (db *DBSqlite) GetUserByName(name string) (api.User, error) {
 
 }
 
-func (db *DBSqlite) DeleteUserById(id int) error {
-	res, err := db.conn.Exec("delete from user where id = ?", id)
-	if err != nil {
-		return err
-	}
-	
-	rows, err := res.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rows == 0 {
-		return ErrUserNotFound
-	}
-
-	return nil
-}
-
-func (db *DBSqlite) DeleteUserByName(name string) error {
+func (db *DBSqlite) DeleteUser(name string) error {
 	res, err := db.conn.Exec("delete from user where name = ?", name)
 	if err != nil {
 		return err

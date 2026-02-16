@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name string) {
-	user, err := s.db.GetUserByName(name)
+	user, err := s.db.GetUser(name)
 
 	if err == db.ErrUserNotFound {
 		http.Error(w, err.Error(), http.StatusNotFound)
@@ -41,7 +41,7 @@ func (s *Server) PutV1CreateUser(w http.ResponseWriter, r *http.Request, name st
 }
 
 func (s *Server) DeleteV1DeleteUser(w http.ResponseWriter, r *http.Request, name string) {
-	err := s.db.DeleteUserByName(name)
+	err := s.db.DeleteUser(name)
 
 	if err == db.ErrUserNotFound {
 		http.Error(w, err.Error(), http.StatusNotFound)
