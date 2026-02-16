@@ -16,10 +16,14 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Run
+        run: ./board &
+
       - uses: schemathesis/action@v2
         with:
           schema: './api/openapi.yaml'
-          url: 'localhost:8080'
+          args: >-
+            --url "localhost:8080"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
