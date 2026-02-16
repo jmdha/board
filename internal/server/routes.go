@@ -1,7 +1,6 @@
 package server
 
 import (
-	"errors"
 	"board/internal/db"
 	"net/http"
 	"encoding/json"
@@ -10,7 +9,7 @@ import (
 func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name string) {
 	user, err := s.db.GetUserByName(name)
 
-	if err != nil && errors.Is(err, db.ErrUserNotFound) {
+	if err == db.ErrUserNotFound {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
@@ -28,7 +27,7 @@ func (s *Server) GetV1GetUser(w http.ResponseWriter, r *http.Request, name strin
 func (s *Server) PutV1CreateUser(w http.ResponseWriter, r *http.Request, name string) {
 	err := s.db.AddUser(name)
 
-	if err != nil && errors.Is(err, db.ErrUserExists) {
+	if err == db.ErrUserExists {
 		http.Error(w, err.Error(), http.StatusConflict)
 		return
 	}
@@ -44,7 +43,7 @@ func (s *Server) PutV1CreateUser(w http.ResponseWriter, r *http.Request, name st
 func (s *Server) DeleteV1DeleteUser(w http.ResponseWriter, r *http.Request, name string) {
 	err := s.db.DeleteUserByName(name)
 
-	if err != nil && errors.Is(err, db.ErrUserNotFound) {
+	if err == db.ErrUserNotFound {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
