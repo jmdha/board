@@ -5,7 +5,7 @@ import (
 	"log"
 	"fmt"
 	"net/http"
-	"board/internal/api"
+	"board/api"
 	"board/internal/db"
 	"board/internal/server"
 )

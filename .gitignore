@@ -2,3 +2,4 @@ board
 db.sqlite
 tmp/*
 internal/api/*
+*.gen.go

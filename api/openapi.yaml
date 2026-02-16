@@ -16,10 +16,12 @@ paths:
             example: "john"
       responses:
         '200':
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+
     post:
       summary: Create user
       operationId: postV1CreateUser
@@ -30,6 +32,10 @@ paths:
           schema:
             type: string
             example: "John"
+      responses:
+        '200':
+          description: OK
+
     delete:
       summary: Delete user
       operationId: deleteV1DeleteUser
@@ -40,13 +46,17 @@ paths:
           schema:
             type: string
             example: "John"
+      responses:
+        '200':
+          description: OK
 
   /users:
     get:
       summary: Get all users
       operationId: getV1GetUsers
-      reponses:
+      responses:
         '200':
+          description: OK
           content:
             application/json:
               schema:

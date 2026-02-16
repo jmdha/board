@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-	"board/internal/api"
+	"board/api"
 	"os"
 	"errors"
 )

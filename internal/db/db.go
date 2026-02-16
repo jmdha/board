@@ -1,7 +1,7 @@
 package db
 
 import (
-	"board/internal/api"
+	"board/api"
 )
 
 type DBInterface interface {
