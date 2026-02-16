@@ -24,10 +24,3 @@ jobs:
           schema: './api/openapi.yaml'
           args: >-
             --url "http://localhost:8080"
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: schemathesis-results
-          path: schemathesis-report/
