@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"board/api"
 )
 
@@ -12,3 +13,6 @@ type DBInterface interface {
 	AddUser(name string) error
 	GetUsers() ([]api.User, error)
 }
+
+var ErrUserNotFound = errors.New("user not found")
+var ErrUserExists = errors.New("user already exists")

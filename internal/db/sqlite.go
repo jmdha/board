@@ -5,7 +5,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"board/api"
 	"os"
-	"errors"
 )
 
 type DBSqlite struct {
@@ -18,23 +17,26 @@ func (db *DBSqlite) Create(path string) error {
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
 
 	_, err = conn.Exec("create table user (id integer not null primary key, name string not null unique)")
 	if err != nil {
+		conn.Close()
 		return err
 	}
 
 	_, err = conn.Exec("create table post (id integer not null primary key, messege string not null)")
 	if err != nil {
+		conn.Close()
 		return err
 	}
 
 	_, err = conn.Exec("create table follow (uid integer not null, tid integer not null, primary key (uid, tid))")
 	if err != nil {
+		conn.Close()
 		return err
 	}
-
+	
+	db.conn = conn
 	return nil
 }
 
@@ -73,7 +75,7 @@ func (db *DBSqlite) DeleteUserById(id int) error {
 	}
 
 	if rows == 0 {
-		return errors.New("user not found")
+		return ErrUserNotFound
 	}
 
 	return nil
@@ -91,7 +93,7 @@ func (db *DBSqlite) DeleteUserByName(name string) error {
 	}
 
 	if rows == 0 {
-		return errors.New("user not found")
+		return ErrUserNotFound
 	}
 
 	return nil
@@ -100,7 +102,10 @@ func (db *DBSqlite) DeleteUserByName(name string) error {
 
 func (db *DBSqlite) AddUser(name string) error {
 	_, err := db.conn.Exec("insert into user (id, name) values (NULL, ?)", name)
-	return err
+	if err != nil {
+		return ErrUserExists
+	}
+	return nil
 }
 
 func (db *DBSqlite) GetUsers() ([]api.User, error) {

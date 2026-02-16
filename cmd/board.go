@@ -19,10 +19,7 @@ func main() {
 	flag.Parse()
 
 	db := &db.DBSqlite {}
-	log.Printf("create db at path %s", db_path)
 	db.Create(db_path)
-	log.Printf("connect to db at path %s", db_path)
-	db.Connect(db_path)
 
 	s := server.ServerNew(db)
 	handler := api.Handler(&s)
