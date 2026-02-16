@@ -19,11 +19,14 @@ func main() {
 	flag.Parse()
 
 	db := &db.DBSqlite {}
-	log.Fatal(db.Create(db_path))
-	log.Fatal(db.Connect(db_path))
+	log.Printf("create db at path %s", db_path)
+	db.Create(db_path)
+	log.Printf("connect to db at path %s", db_path)
+	db.Connect(db_path)
 
 	s := server.ServerNew(db)
 	handler := api.Handler(&s)
 
+	log.Printf(":%d", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), handler))
 }
