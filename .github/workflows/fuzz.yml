@@ -14,7 +14,7 @@ jobs:
         run: go generate -v ./...
 
       - name: Build
-        run: go build -v ./...
+        run: go build cmd/board.go
 
       - name: Run
         run: ./board &
@@ -23,7 +23,7 @@ jobs:
         with:
           schema: './api/openapi.yaml'
           args: >-
-            --url "localhost:8080"
+            --url "http://localhost:8080"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
